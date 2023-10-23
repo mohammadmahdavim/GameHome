@@ -167,7 +167,7 @@
                                     و خروج کارگاه</i></b>
                         </h6>
                     </a>
-                    <x-workshop/>
+                    <x-Workshop/>
 
                 </li>
             @endcan
