@@ -1,0 +1,5 @@
+ALTER TABLE `user_planes` ADD `dead_date` VARCHAR(191) NULL AFTER `end_date`;
+
+ALTER TABLE `users` ADD `tuition` VARCHAR(191) NOT NULL DEFAULT '0' AFTER `remaining`, ADD `payed` VARCHAR(191) NOT NULL DEFAULT '0' AFTER `tuition`, ADD `tuition_remaining` VARCHAR(191) NOT NULL DEFAULT '0' AFTER `payed`;
+ALTER TABLE `rollcalls` ADD `calculable` TINYINT NOT NULL DEFAULT '1' AFTER `type`;
+ALTER TABLE `user_planes` CHANGE `dead_date` `dead_date` DATE NULL DEFAULT NULL;

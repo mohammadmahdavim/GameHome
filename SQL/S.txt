@@ -1,0 +1,3 @@
+ALTER TABLE `absents` ADD `type` INT NOT NULL DEFAULT '1' COMMENT '1=plane ,2=workshop' AFTER `date`;
+ALTER TABLE `rollcalls` ADD `workshop_id` BIGINT UNSIGNED NULL AFTER `plane_id`;
+
