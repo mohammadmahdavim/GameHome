@@ -51,17 +51,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::any('products/delete/{id}', [\App\Http\Controllers\ProductController::class, 'destroy'])->middleware('can:product-list');;
         Route::post('products/inventory', [\App\Http\Controllers\ProductController::class, 'inventory'])->middleware('can:product-list');;
 
-        Route::resource('planes', \App\Http\Controllers\PlaneController::class)->middleware('can:palne-list');
-        Route::get('planes_list/{type}', [\App\Http\Controllers\PlaneController::class, 'planes_list'])->middleware('can:palne-list');
-        Route::any('planes/delete/{id}', [\App\Http\Controllers\PlaneController::class, 'destroy'])->middleware('can:palne-list');
-        Route::get('planes/students/{id}', [\App\Http\Controllers\PlaneController::class, 'students'])->middleware('can:palne-list');
-        Route::get('planes/classes/{id}', [\App\Http\Controllers\PlaneController::class, 'classes'])->middleware('can:palne-list');
-        Route::post('classes/store', [\App\Http\Controllers\PlaneController::class, 'classes_store'])->middleware('can:palne-list');
-        Route::any('classes/update/{id}', [\App\Http\Controllers\PlaneController::class, 'classes_update'])->middleware('can:palne-list');
-        Route::any('classes/delete/{id}', [\App\Http\Controllers\PlaneController::class, 'classes_delete'])->middleware('can:palne-list');
-        Route::any('classes/students/{id}', [\App\Http\Controllers\PlaneController::class, 'classes_students'])->middleware('can:palne-list');
-        Route::any('classes_students/delete/{id}', [\App\Http\Controllers\PlaneController::class, 'classes_delete_students'])->middleware('can:palne-list');
-        Route::post('classes_students/add', [\App\Http\Controllers\PlaneController::class, 'classes_add_students'])->middleware('can:palne-list');
+        Route::resource('planes', \App\Http\Controllers\PlaneController::class)->middleware('can:plane-list');
+        Route::get('planes_list/{type}', [\App\Http\Controllers\PlaneController::class, 'planes_list'])->middleware('can:plane-list');
+        Route::any('planes/delete/{id}', [\App\Http\Controllers\PlaneController::class, 'destroy'])->middleware('can:plane-list');
+        Route::get('planes/students/{id}', [\App\Http\Controllers\PlaneController::class, 'students'])->middleware('can:plane-list');
+        Route::get('planes/classes/{id}', [\App\Http\Controllers\PlaneController::class, 'classes'])->middleware('can:plane-list');
+        Route::post('classes/store', [\App\Http\Controllers\PlaneController::class, 'classes_store'])->middleware('can:plane-list');
+        Route::any('classes/update/{id}', [\App\Http\Controllers\PlaneController::class, 'classes_update'])->middleware('can:plane-list');
+        Route::any('classes/delete/{id}', [\App\Http\Controllers\PlaneController::class, 'classes_delete'])->middleware('can:plane-list');
+        Route::any('classes/students/{id}', [\App\Http\Controllers\PlaneController::class, 'classes_students'])->middleware('can:plane-list');
+        Route::any('classes_students/delete/{id}', [\App\Http\Controllers\PlaneController::class, 'classes_delete_students'])->middleware('can:plane-list');
+        Route::post('classes_students/add', [\App\Http\Controllers\PlaneController::class, 'classes_add_students'])->middleware('can:plane-list');
 
         Route::get('planes/rollcall/{id}', [\App\Http\Controllers\PlaneController::class, 'rollcall'])->middleware('can:plane-rollcall');
         Route::get('planes/rollcall/enter/{id}', [\App\Http\Controllers\PlaneController::class, 'rollcall_enter'])->middleware('can:plane-rollcall');
@@ -97,10 +97,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::any('workshop/delete_student/{id}', [\App\Http\Controllers\WorkshopController::class, 'delete_student'])->middleware('can:workshop-list');
         Route::any('workshop/delete/{id}', [\App\Http\Controllers\WorkshopController::class, 'destroy'])->middleware('can:workshop-list');
 
-        Route::get('workshop/rollcall/{id}', [\App\Http\Controllers\WorkshopController::class, 'rollcall'])->middleware('can:workshop-rollcall');
-        Route::get('workshop/rollcall/enter/{id}/{workshopID}', [\App\Http\Controllers\WorkshopController::class, 'rollcall_enter'])->middleware('can:workshop-rollcall');
-        Route::get('workshop/rollcall/exit/{id}/{workshopID}', [\App\Http\Controllers\WorkshopController::class, 'rollcall_exit'])->middleware('can:workshop-rollcall');
-        Route::get('workshop/rollcall/absent/{id}', [\App\Http\Controllers\WorkshopController::class, 'rollcall_absent'])->middleware('can:workshop-rollcall');
+        Route::get('workshop/rollcall/{id}', [\App\Http\Controllers\WorkshopController::class, 'rollcall']);
+        Route::get('workshop/rollcall/enter/{id}/{workshopID}', [\App\Http\Controllers\WorkshopController::class, 'rollcall_enter']);
+        Route::get('workshop/rollcall/exit/{id}/{workshopID}', [\App\Http\Controllers\WorkshopController::class, 'rollcall_exit']);
+        Route::get('workshop/rollcall/absent/{id}', [\App\Http\Controllers\WorkshopController::class, 'rollcall_absent']);
         Route::any('workshop/delete_staff/{id}', [\App\Http\Controllers\WorkshopController::class, 'delete_staff'])->middleware('can:workshop-list');
         Route::any('workshop/add_staff', [\App\Http\Controllers\WorkshopController::class, 'add_staff'])->middleware('can:workshop-list');
 

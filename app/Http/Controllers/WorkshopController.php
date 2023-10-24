@@ -24,8 +24,8 @@ class WorkshopController extends Controller
             ->with('staff.user')
             ->paginate(30);
         $types = WorkshopType::all();
-        $staff = User::whereIn('role',['staff','admin'])->get();
-        return view('panel.workshop.index', ['rows' => $rows, 'types' => $types,  'staff'=>$staff]);
+        $staff = User::whereIn('role', ['staff', 'admin'])->get();
+        return view('panel.workshop.index', ['rows' => $rows, 'types' => $types, 'staff' => $staff]);
     }
 
     /**
@@ -160,94 +160,114 @@ class WorkshopController extends Controller
 
     public function rollcall($id)
     {
-        $workshop = Workshop::find($id);
-        $students = WorkshopStudent::where('workshop_id', $id)->pluck('user_id');
-        $rows = User::where('role', 'user')
-            ->whereIn('id', $students)
-            ->withsum('workshop_roolcall', 'sum', function ($q) use ($id) {
-                $q->where('workshop_id', $id);
-            })
-            ->get();
-        return view('panel.workshop.rollcall', ['rows' => $rows, 'workshop' => $workshop]);
+        if (auth()->user()->hasAnyPermission(['my-workshop', 'workshop-rollcall'])) {
+            $workshop = Workshop::find($id);
+            $students = WorkshopStudent::where('workshop_id', $id)->pluck('user_id');
+            $rows = User::where('role', 'user')
+                ->whereIn('id', $students)
+                ->withsum('workshop_roolcall', 'sum', function ($q) use ($id) {
+                    $q->where('workshop_id', $id);
+                })
+                ->get();
+            return view('panel.workshop.rollcall', ['rows' => $rows, 'workshop' => $workshop]);
+        } else {
+            return abort(403);
+        }
+
 
     }
 
     public function rollcall_enter($id, $workshopId)
     {
-        $user = User::where('id', $id)->first();
-        $check = Rollcall::where('user_id', $user->id)
-            ->where('date', Jalalian::now()->format('Y-m-d'))
-            ->where('calculable', 2)
-            ->where('workshop_id', $workshopId)
-            ->orderBy('created_at', 'desc')
-            ->first();
-        $timeNow = Jalalian::now()->format('H:i');
-        if (!$check) {
-            $check = Rollcall::create([
-                'calculable' => 2,
-                'user_id' => $user->id,
-                'workshop_id' => $workshopId,
-                'date' => Jalalian::now()->format('Y-m-d'),
-                'type' => 'system',
-                'enter' => $timeNow,
-                'author' => auth()->user()->id
-            ]);
-            return 'ok';
-        } else {
-            return response('', '500');
+        if (auth()->user()->hasAnyPermission(['my-workshop', 'workshop-rollcall'])) {
+            $user = User::where('id', $id)->first();
+            $check = Rollcall::where('user_id', $user->id)
+                ->where('date', Jalalian::now()->format('Y-m-d'))
+                ->where('calculable', 2)
+                ->where('workshop_id', $workshopId)
+                ->orderBy('created_at', 'desc')
+                ->first();
+            $timeNow = Jalalian::now()->format('H:i');
+            if (!$check) {
+                $check = Rollcall::create([
+                    'calculable' => 2,
+                    'user_id' => $user->id,
+                    'workshop_id' => $workshopId,
+                    'date' => Jalalian::now()->format('Y-m-d'),
+                    'type' => 'system',
+                    'enter' => $timeNow,
+                    'author' => auth()->user()->id
+                ]);
+                return 'ok';
+            } else {
+                return response('', '500');
 
+            }
+        } else {
+            return abort(403);
         }
+
 
     }
 
     public function rollcall_exit($id, $workshopId)
     {
-        $user = User::where('id', $id)->first();
-        $check = Rollcall::where('user_id', $user->id)
-            ->where('date', Jalalian::now()->format('Y-m-d'))
-            ->where('calculable', 2)
-            ->where('workshop_id', $workshopId)
-            ->orderBy('created_at', 'desc')
-            ->first();
-        $timeNow = Jalalian::now()->format('H:i');
-        if ($check) {
-            $check->update([
-                'exit' => $timeNow,
-            ]);
-            $row = Rollcall::where('id', $check->id)->first();
-            $enter = $row->enter;
-            $exit = $row->exit;
-            if ($exit and $enter) {
-                $start_datetime = new DateTime($enter);
-                $diff = $start_datetime->diff(new DateTime($exit));
-                $total_minutes = ($diff->h * 60);
-                $total_minutes += $diff->i;
-                $row->update(['sum' => $total_minutes * $row->count, 'duration' => $total_minutes]);
+        if (auth()->user()->hasAnyPermission(['my-workshop', 'workshop-rollcall'])) {
+            $user = User::where('id', $id)->first();
+            $check = Rollcall::where('user_id', $user->id)
+                ->where('date', Jalalian::now()->format('Y-m-d'))
+                ->where('calculable', 2)
+                ->where('workshop_id', $workshopId)
+                ->orderBy('created_at', 'desc')
+                ->first();
+            $timeNow = Jalalian::now()->format('H:i');
+            if ($check) {
+                $check->update([
+                    'exit' => $timeNow,
+                ]);
+                $row = Rollcall::where('id', $check->id)->first();
+                $enter = $row->enter;
+                $exit = $row->exit;
+                if ($exit and $enter) {
+                    $start_datetime = new DateTime($enter);
+                    $diff = $start_datetime->diff(new DateTime($exit));
+                    $total_minutes = ($diff->h * 60);
+                    $total_minutes += $diff->i;
+                    $row->update(['sum' => $total_minutes * $row->count, 'duration' => $total_minutes]);
+                }
+            } else {
+                return response('', '500');
+
             }
         } else {
-            return response('', '500');
-
+            return abort(403);
         }
+
 
     }
 
     public function rollcall_absent($id)
     {
-        $user = User::where('id', $id)->first();
-        $absent = Absent::where('user_id', $user->id)
-            ->where('date', Jalalian::now()->format('Y-m-d'))
-            ->wher('type', 2)
-            ->first();
-        if (!$absent) {
-            Absent::create([
-                'user_id' => $user->id,
-                'type' => 2,
-                'date' => Jalalian::now()->format('Y-m-d'),
-                'author' => auth()->user()->id
-            ]);
-            Kavenegar::reserve($user->id,$user->father_mobile, Jalalian::now()->format('Y-m-d'), 'غیبت','absent');
+        if (auth()->user()->hasAnyPermission(['my-workshop', 'workshop-rollcall'])) {
+            $user = User::where('id', $id)->first();
+            $absent = Absent::where('user_id', $user->id)
+                ->where('date', Jalalian::now()->format('Y-m-d'))
+                ->wher('type', 2)
+                ->first();
+            if (!$absent) {
+                Absent::create([
+                    'user_id' => $user->id,
+                    'type' => 2,
+                    'date' => Jalalian::now()->format('Y-m-d'),
+                    'author' => auth()->user()->id
+                ]);
+                Kavenegar::reserve($user->id, $user->father_mobile, Jalalian::now()->format('Y-m-d'), 'غیبت', 'absent');
 
+            }
+        } else {
+            return abort(403);
         }
+
 
     }
 
