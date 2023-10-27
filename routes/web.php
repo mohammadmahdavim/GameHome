@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'level'], function () {
 
+
         Route::resource('roles', \App\Http\Controllers\RoleController::class);
         Route::any('roles/delete/{id}', [\App\Http\Controllers\RoleController::class, 'destroy']);
         Route::post('syncRoles', [\App\Http\Controllers\RoleController::class, 'syncRoles']);
