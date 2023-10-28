@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AbsentExport;
 use App\Exports\InvoiceExport;
 use App\Exports\PlaneExport;
 use App\Exports\ProductExport;
 use App\Exports\RollcallExport;
 use App\Exports\ServiceExport;
+use App\Models\Absent;
 use App\Models\Invoice;
 use App\Models\Plane;
 use App\Models\Product;
@@ -207,5 +209,34 @@ class ReportController extends Controller
     {
         $date = Jalalian::now()->format('Y-m-d');
         return Excel::download(new InvoiceExport(), $date . ' ' . 'فاکتور.xlsx');
+    }
+
+    public function absents(Request $request)
+    {
+        $rows = Absent::
+        when($request->get('user_id'), function ($query) use ($request) {
+            $query->where('user_id', $request->user_id);
+        })->
+        when($request->get('type'), function ($query) use ($request) {
+            $query->where('type', $request->type);
+        })
+            ->when($request->get('date-picker-shamsi-list'), function ($query) use ($request) {
+                $query->where('date', '>=', $request->input('date-picker-shamsi-list'));
+            })
+            ->when($request->get('date-picker-shamsi-list-1'), function ($query) use ($request) {
+                $query->where('date', '<=', $request->input('date-picker-shamsi-list-1'));
+            })
+            ->orderBy('created_at', 'desc')->paginate(30);
+        $users = User::where('role', 'user')->get();
+        return view('panel.report.absents', [
+            'rows' => $rows,
+            'users' => $users,
+        ]);
+    }
+
+    public function export_absents(Request $request)
+    {
+        $date = Jalalian::now()->format('Y-m-d');
+        return Excel::download(new AbsentExport(), $date . ' ' . 'غیبت ها.xlsx');
     }
 }

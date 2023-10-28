@@ -22,7 +22,7 @@ class DashboardController extends Controller
 
     public function sms()
     {
-        $cheques = UserPlane::where('dead_date', '=<', Jalalian::now()->addDays(3)->format('Y-m-d'))
+        $cheques = UserPlane::where('dead_date', '<=', Jalalian::now()->addDays(3)->format('Y-m-d'))
             ->where('sms', 0)
             ->whereNotNull('dead_date')
             ->get();
@@ -33,7 +33,7 @@ class DashboardController extends Controller
             }
         }
         $planes = Plane::where('type', 'monthly')->pluck('id');
-        $cheques = UserPlane::where('dead_date_eshterak', '=<', Jalalian::now()->addDays(3)->format('Y-m-d'))
+        $cheques = UserPlane::where('dead_date_eshterak', '<=', Jalalian::now()->addDays(3)->format('Y-m-d'))
             ->whereNotNull('dead_date_eshterak')
             ->where('sms', 0)
             ->whereIn('plane_id', $planes)

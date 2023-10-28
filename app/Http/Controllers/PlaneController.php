@@ -296,7 +296,7 @@ class PlaneController extends Controller
         $user = User::where('id', $id)->first();
         $absent = Absent::where('user_id', $user->id)
             ->where('date', Jalalian::now()->format('Y-m-d'))
-            ->wher('type', 1)
+            ->where('type', 1)
             ->first();
         if (!$absent) {
             Absent::create([

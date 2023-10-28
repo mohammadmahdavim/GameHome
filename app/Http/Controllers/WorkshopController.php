@@ -252,7 +252,7 @@ class WorkshopController extends Controller
             $user = User::where('id', $id)->first();
             $absent = Absent::where('user_id', $user->id)
                 ->where('date', Jalalian::now()->format('Y-m-d'))
-                ->wher('type', 2)
+                ->where('type', 2)
                 ->first();
             if (!$absent) {
                 Absent::create([

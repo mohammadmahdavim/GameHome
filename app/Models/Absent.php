@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Absent extends Model
 {
-    use HasFactory,SoftDeletes;
-    protected $guarded=[];
+    use HasFactory, SoftDeletes;
+
+    protected $guarded = [];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class)->withDefault();
+    }
+
+    public function absenter()
+    {
+        return $this->belongsTo(User::class, 'author')->withDefault();
+    }
 }

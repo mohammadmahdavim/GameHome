@@ -180,6 +180,7 @@
                         <li><a href="/report/planes">پلن ها</a></li>
                         <li><a href="/report/products">بوفه</a></li>
                         <li><a href="/report/services">خدمات</a></li>
+                        <li><a href="/report/absents">غیبت ها</a></li>
                     </ul>
                 </li>
             @endcan

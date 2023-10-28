@@ -117,12 +117,14 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/products', [\App\Http\Controllers\ReportController::class, 'products'])->middleware('can:all-reports');
             Route::get('/services', [\App\Http\Controllers\ReportController::class, 'services'])->middleware('can:all-reports');
             Route::get('/invoices', [\App\Http\Controllers\ReportController::class, 'invoices'])->middleware('can:all-reports');
+            Route::get('/absents', [\App\Http\Controllers\ReportController::class, 'absents'])->middleware('can:all-reports');
 
             Route::group(['prefix' => 'export'], function () {
                 Route::get('/rollcall', [\App\Http\Controllers\ReportController::class, 'export_rollcall'])->middleware('can:all-reports');
                 Route::get('/planes', [\App\Http\Controllers\ReportController::class, 'export_planes'])->middleware('can:all-reports');
                 Route::get('/products', [\App\Http\Controllers\ReportController::class, 'export_products'])->middleware('can:all-reports');
                 Route::get('/services', [\App\Http\Controllers\ReportController::class, 'export_services'])->middleware('can:all-reports');
+                Route::get('/absents', [\App\Http\Controllers\ReportController::class, 'export_absents'])->middleware('can:all-reports');
                 Route::get('/invoices', [\App\Http\Controllers\ReportController::class, 'export_invoices'])->middleware('can:all-reports');
 
             });
