@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('roles', \App\Http\Controllers\RoleController::class);
         Route::any('roles/delete/{id}', [\App\Http\Controllers\RoleController::class, 'destroy']);
         Route::post('syncRoles', [\App\Http\Controllers\RoleController::class, 'syncRoles']);
-
 
 
         Route::get('get_invoice/{id}', [\App\Http\Controllers\InvoiceController::class, 'get_invoice']);
@@ -105,9 +105,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::any('workshop/delete_staff/{id}', [\App\Http\Controllers\WorkshopController::class, 'delete_staff'])->middleware('can:workshop-list');
         Route::any('workshop/add_staff', [\App\Http\Controllers\WorkshopController::class, 'add_staff'])->middleware('can:workshop-list');
 
-        Route::get('all_reserve', [\App\Http\Controllers\ReserveController::class,'all_reserve'])->middleware('can:reserve');
-        Route::post('accept_reserve', [\App\Http\Controllers\ReserveController::class,'accept_reserve'])->middleware('can:reserve');
-        Route::get('decline_reserve/{id}', [\App\Http\Controllers\ReserveController::class,'decline_reserve'])->middleware('can:reserve');
+        Route::get('all_reserve', [\App\Http\Controllers\ReserveController::class, 'all_reserve'])->middleware('can:reserve');
+        Route::post('accept_reserve', [\App\Http\Controllers\ReserveController::class, 'accept_reserve'])->middleware('can:reserve');
+        Route::get('decline_reserve/{id}', [\App\Http\Controllers\ReserveController::class, 'decline_reserve'])->middleware('can:reserve');
 
 
         Route::get('report', [\App\Http\Controllers\RollcallController::class, 'today']);
@@ -152,3 +152,26 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('payment/checkout/{token}', [\App\Http\Controllers\PaymentController::class, 'checkout'])->middleware(['auth']);
 Route::post('payment/checkout/{token}', [\App\Http\Controllers\PaymentController::class, 'checkout'])->middleware(['auth']);
 Route::get('payment/bank-redirect/{bank}', [\App\Http\Controllers\PaymentController::class, 'bankRedirect'])->middleware(['auth']);
+
+
+Route::get('mails/inbox', [MailController::class, 'inbox'])->name('');
+Route::get('mail/outbox', [MailController::class, 'outbox']);
+Route::get('mail/create', [MailController::class, 'create'])->name('mail');
+Route::post('mail/store', [MailController::class, 'store']);
+Route::get('mail/important', [MailController::class, 'important']);
+Route::get('mail/edit/{id}', [MailController::class, 'edit']);
+Route::any('mail/update/{id}', [MailController::class, 'update']);
+Route::get('mail/updatein/{id}', [MailController::class, 'updatein']);
+Route::get('mail/onupdatein/{id}', [MailController::class, 'onupdatein']);
+Route::get('mail/updateout/{id}', [MailController::class, 'updateout']);
+Route::get('mail/onupdateout/{id}', [MailController::class, 'onupdateout']);
+Route::get('mail/updatestar/{id}', [MailController::class, 'updatestar']);
+Route::get('mail/onupdatestar/{id}', [MailController::class, 'onupdatestar']);
+Route::get('mail/show/{id}', [MailController::class, 'show']);
+Route::get('mail/showin/{id}', [MailController::class, 'showin']);
+Route::get('mail/mailDeleteAll/{id}', [MailController::class, 'delete']);
+Route::get('mail/mailDelete/{id}', [MailController::class, 'deletemail']);
+Route::get('mail/forward/{id}', [MailController::class, 'forward']);
+Route::any('mail/forwardto/{id}', [MailController::class, 'forwardto']);
+Route::post('mail/answare/{id}', [MailController::class, 'answare']);
+Route::get('mail/save/{id}', [MailController::class, 'download'])->name('mail.download');

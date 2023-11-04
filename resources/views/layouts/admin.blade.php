@@ -38,30 +38,7 @@
 </div>
 <!-- end::page loader -->
 
-<!-- begin::sidebar -->
-<div class="sidebar">
-    <ul class="nav nav-pills nav-justified m-b-30" id="pills-tab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link" id="messages-tab" data-toggle="pill" href="#messages" role="tab"
-               aria-controls="messages" aria-selected="true">
-                <i class="fa fa-envelope"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="notifications-tab" data-toggle="pill" href="#notifications" role="tab"
-               aria-controls="notifications" aria-selected="false">
-                <i class="fa fa-bell"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="settings-tab" data-toggle="pill" href="#settings" role="tab"
-               aria-controls="settings" aria-selected="false">
-                <i class="ti-settings"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-<!-- end::sidebar -->
+
 
 <!-- begin::side menu -->
 <div class="side-menu">
@@ -278,7 +255,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link nav-link-notify sidebar-open" data-sidebar-target="#messages">
+                    <a href="/mails/inbox" class="nav-link nav-link-notify " data-sidebar-target="">
                         <i class="fa fa-envelope"></i>
                     </a>
                 </li>
