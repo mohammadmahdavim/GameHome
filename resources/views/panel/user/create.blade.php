@@ -65,9 +65,22 @@
                     </div>
                     <div class="col-md-3">
                         <br>
+                        <h6><label>کد ملی</label></h6>
+                        <input type="text" id="title" class="form-control" name="national_code" value="{{ old('national_code') }}"
+                               required>
+                    </div>
+                    <div class="col-md-3">
+                        <br>
                         <h6><label>نام پدر</label></h6>
                         <input type="text" id="title" class="form-control" name="father_name"
                                value="{{ old('father_name') }}"
+                        >
+                    </div>
+                    <div class="col-md-3">
+                        <br>
+                        <h6><label>شغل پدر</label></h6>
+                        <input type="text" id="title" class="form-control" name="father_job"
+                               value="{{ old('father_job') }}"
                         >
                     </div>
                     <div class="col-md-3">

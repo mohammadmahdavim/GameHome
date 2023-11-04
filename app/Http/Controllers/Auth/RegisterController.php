@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Morilog\Jalali\Jalalian;
 
 class RegisterController extends Controller
 {
@@ -66,6 +67,8 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $row = User::create([
+            'national_code' => $data['national_code'],
+            'father_job' => $data['father_job'],
             'name' => $data['name'],
             'family' => $data['family'],
             'father_name' => $data['father_name'],
@@ -79,8 +82,9 @@ class RegisterController extends Controller
         $row->update([
             'code' => $row->id + 1000
         ]);
-        Kavenegar::reserve($row->id, $row->father_mobile, $row->created_at, 'ثبت نام', 'register');
-
+        Kavenegar::reserve($row->id, $row->father_mobile, Jalalian::forge($row->created_at)->format('Y/m/d'), '', 'register');
+        //        alert()->success('به سایت خوش آمدید', 'موفق');
+//        return redirect('/customer');
         return $row;
 
 

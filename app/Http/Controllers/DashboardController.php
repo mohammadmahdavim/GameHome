@@ -22,25 +22,29 @@ class DashboardController extends Controller
 
     public function sms()
     {
-        $cheques = UserPlane::where('dead_date', '<=', Jalalian::now()->addDays(3)->format('Y-m-d'))
+        $cheques = UserPlane::where('dead_date', '<=', Jalalian::now()->addDays(3)->format('Y/m/d'))
             ->where('sms', 0)
             ->whereNotNull('dead_date')
             ->get();
         foreach ($cheques as $cheque) {
             if ($cheque->payed < $cheque->price) {
-                Kavenegar::reserve($cheque->user->id,$cheque->user->father_mobile, $cheque->dead_date, $cheque->plane->title, 'finance');
+                $title=explode(' ',$cheque->plane->title);
+                $title=$title[0];
+                Kavenegar::reserve($cheque->user->id,$cheque->user->father_mobile, $cheque->dead_date, $title, 'finance');
                 $cheque->update(['sms' => 1]);
             }
         }
         $planes = Plane::where('type', 'monthly')->pluck('id');
-        $cheques = UserPlane::where('dead_date_eshterak', '<=', Jalalian::now()->addDays(3)->format('Y-m-d'))
+        $cheques = UserPlane::where('dead_date_eshterak', '<=', Jalalian::now()->addDays(3)->format('Y/m/d'))
             ->whereNotNull('dead_date_eshterak')
             ->where('sms', 0)
             ->whereIn('plane_id', $planes)
             ->get();
         foreach ($cheques as $cheque) {
             if ($cheque->plane->type == 'monthly') {
-                Kavenegar::reserve($cheque->user->id,$cheque->user->father_mobile, $cheque->dead_date, $cheque->plane->title, 'eshterak');
+                $title=explode(' ',$cheque->plane->title);
+                $title=$title[0];
+                Kavenegar::reserve($cheque->user->id,$cheque->user->father_mobile, $cheque->dead_date, $title, 'eshterak');
                 $cheque->update(['sms' => 1]);
             }
         }

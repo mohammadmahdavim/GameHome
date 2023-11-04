@@ -67,8 +67,11 @@ class UserController extends Controller
     {
         $request->validate([
             'father_mobile' => 'required|unique:users',
+            'national_code' => 'unique:users',
         ]);
         $row = User::create([
+            'national_code' => $request->national_code,
+            'father_job' => $request->father_job,
             'role' => $request->role,
             'name' => $request->name,
             'family' => $request->family,
@@ -113,6 +116,8 @@ class UserController extends Controller
     {
         $row = User::where('id', $id)->first();
         $row->update([
+            'national_code' => $request->national_code,
+            'father_job' => $request->father_job,
             'name' => $request->name,
             'family' => $request->family,
             'father_name' => $request->father_name,

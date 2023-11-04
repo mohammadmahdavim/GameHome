@@ -64,7 +64,7 @@ class Kavenegar
             'token' => $date,
             'token1' => $status
         ]);
-        $key = 'ddd';
+        $key = '6F65416955524D797052576F6A4354546A463650366273677574646332426763434D6A4372795861526A513D';
         $url = 'https://api.kavenegar.com/v1/' . $key . '/verify/lookup.json?receptor=' . $mobile . '&token=' . $date . '&token2=' . $status . '&template=' . $template;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

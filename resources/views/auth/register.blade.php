@@ -67,6 +67,22 @@
                 <div class="form-group row">
 
                     <div class="col-md-12">
+                        <input value="{{old('national_code')}}" id="national_code" type=""
+                               class="form-control form-control-lg{{ $errors->has('national_code') ? ' is-invalid' : '' }}"
+                               name="national_code" required  placeholder="کد ملی">
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <div class="col-md-12">
+                        <input value="{{old('father_job')}}" id="father_job" type=""
+                               class="form-control form-control-lg{{ $errors->has('father_job') ? ' is-invalid' : '' }}"
+                               name="father_job" required  placeholder="شغل پدر">
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <div class="col-md-12">
                         <input value="{{old('father_name')}}" id="father_name" type=""
                                class="form-control form-control-lg{{ $errors->has('father_name') ? ' is-invalid' : '' }}"
                                name="father_name" required  placeholder="نام پدر">

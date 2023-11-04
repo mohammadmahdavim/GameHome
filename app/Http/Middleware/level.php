@@ -21,6 +21,9 @@ class level
         if (auth()->user()->role != 'user') {
             return $next($request);
         }
+        if (auth()->user()->role == 'user') {
+            return redirect('customer');
+        }
         return abort(403);
     }
 }

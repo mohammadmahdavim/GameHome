@@ -159,8 +159,8 @@
                                      @else src="/login_image/happy-children-go-to-school-free-vector.jpg"
                                      @endif width="50" height="50" class="rounded">
                             </td>
-                            <td style="text-align: center">{{$row->name}} {{$row->family}}</td>
-                            <td style="text-align: center">{{$row->father_name}}</td>
+                            <td style="text-align: center" title="{{$row->national_code}}">{{$row->name}} {{$row->family}}</td>
+                            <td style="text-align: center" title="{{$row->father_job}}">{{$row->father_name}}</td>
 {{--                            <td style="text-align: center">{{$row->mother_name}}</td>--}}
 {{--                            <td style="text-align: center">{{$row->father_mobile}}</td>--}}
 {{--                            <td style="text-align: center">{{$row->mother_mobile}}</td>--}}

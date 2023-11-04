@@ -304,7 +304,7 @@ class PlaneController extends Controller
                 'date' => Jalalian::now()->format('Y-m-d'),
                 'author' => auth()->user()->id
             ]);
-            Kavenegar::reserve($user->id,$user->father_mobile, Jalalian::now()->format('Y-m-d'), 'غیبت','absent');
+            Kavenegar::reserve($user->id,$user->father_mobile, Jalalian::now()->format('Y/m/d'), 'غیبت','absent');
         }
 
     }

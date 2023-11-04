@@ -86,7 +86,7 @@ class ReserveController extends Controller
             $subInvoice->delete();
             $invoice->delete();
         }
-        Kavenegar::reserve($reserve->user->father_mobile, $reserve->date, 'رد','reserve');
+        Kavenegar::reserve($reserve->user->id,$reserve->user->father_mobile, $reserve->date, 'رد','reserve');
 
     }
 

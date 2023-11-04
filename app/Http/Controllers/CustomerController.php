@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\lib\Kavenegar;
 use App\Models\Absent;
 use App\Models\Invoice;
 use App\Models\Plane;
@@ -11,11 +12,13 @@ use App\Models\User;
 use App\Models\Workshop;
 use App\Models\WorkshopStudent;
 use Illuminate\Http\Request;
+use Morilog\Jalali\Jalalian;
 
 class CustomerController extends Controller
 {
     public function index()
     {
+
         return view('panel.customer.index');
     }
 
